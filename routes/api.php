@@ -1,21 +1,29 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\NormalUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UtilController;
 
 Route::post('login', [UserController::class, 'login']);
 Route::post('signup', [UserController::class, 'signup']);
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+
+    Route::group(['middleware' => ['is_user']], function ($route) {
+        $route->get('/get-user-cart',[NormalUserController::class,'getUserCart']);
+        $route->post('/add-product-to-cart',[NormalUserController::class,'addProductToCart']);
+        $route->post('/increse-cart-item-count',[NormalUserController::class,'increseCartItem']);
+        $route->post('/reduce-cart-item-count',[NormalUserController::class,'reduceItemCount']);
+        $route->post('/remove-item-from-cart',[NormalUserController::class,'rmeoveItem']);
+        $route->post('/convert-cart-to-bill',[NormalUserController::class,'convertCartToBill']);
+    });
+    Route::group(['middleware' => ['is_admin']], function ($route) {
+        $route->post('/add-product',[AdminController::class,'addProduct']);
+    });
+    Route::get('/get-all-categories',[UtilController::class,'getAllCategories']);
+    Route::get('/get-section-product/{secName}',[UtilController::class,'getAllSectionProduct']);
+    Route::get('/get-product-by-id/{id}',[UtilController::class,'getProductById']);
 });

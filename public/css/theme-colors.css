@@ -1,0 +1,91 @@
+:root {
+    --wave-color: #fbd66e;
+    --wave-color-50per: rgba(251, 213, 110, 0.5);
+    --wave-color-2: #fbd415;
+    --text-color: #fc996c;
+    --text-color-50per: rgba(252, 154, 108, 0.5);
+    --icon-color: #5ce4e4;
+    --button-color: #fe7171;
+    --secondary-button-color: #5ce4e4;
+    --secondary-button-color-50per: rgba(92, 228, 228, 0.5);
+    --secondary-text-color: grey;
+}
+
+.inline-button {
+    background: var(--icon-color);
+    border-color: var(--icon-color);
+}
+
+.inline-button:hover {
+    background: transparent;
+    border-color: var(--icon-color);
+    color: var(--secondary-text-color);
+}
+
+.outline-button {
+    background: transparent;
+    border-color: var(--icon-color);
+    color: var(--secondary-text-color);
+}
+
+.outline-button:hover {
+    background: var(--icon-color);
+    border-color: var(--icon-color);
+    color: white;
+}
+
+.fav-button {
+    background: var(--text-color);
+    border-color: var(--text-color);
+}
+
+.fav-button:hover {
+    background: transparent;
+    border-color: var(--text-color);
+    color: var(--secondary-text-color);
+}
+
+.floating-container {
+    position: fixed;
+    width: 100px;
+    height: 100px;
+    bottom: 0;
+    right: 0;
+    margin: 35px 25px;
+    z-index: 1;
+}
+
+.floating-container:hover {
+    height: 300px;
+}
+
+.floating-container:hover .floating-button {
+    box-shadow: 0 10px 25px rgba(44, 179, 240, 0.6);
+    transform: translatey(5px);
+    transition: all 0.3s;
+}
+
+.floating-container .floating-button {
+    position: absolute;
+    width: 65px;
+    height: 65px;
+    background: var(--secondary-button-color);
+    bottom: 0;
+    border-radius: 50%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    color: white;
+    line-height: 65px;
+    text-align: center;
+    font-size: 23px;
+    z-index: 100;
+    box-shadow: 0 10px 25px -5px rgba(44, 179, 240, 0.6);
+    cursor: pointer;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.max-width {
+    max-width: fit-content;
+}
