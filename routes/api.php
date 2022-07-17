@@ -19,11 +19,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         $route->post('/reduce-cart-item-count',[NormalUserController::class,'reduceItemCount']);
         $route->post('/remove-item-from-cart',[NormalUserController::class,'rmeoveItem']);
         $route->post('/convert-cart-to-bill',[NormalUserController::class,'convertCartToBill']);
+        $route->post('/add-new-user-distict',[NormalUserController::class,'addNewUserDistrict']);
+        $route->get('/get-my-district',[NormalUserController::class,'getMyDistricts']);
+        $route->get('/get-all-district',[NormalUserController::class,'getAllDistricts']);
     });
     Route::group(['middleware' => ['is_admin']], function ($route) {
         $route->post('/add-product',[AdminController::class,'addProduct']);
+        $route->post('/add-new-district',[AdminController::class,'addnewDistrict']);
     });
     Route::get('/get-all-categories',[UtilController::class,'getAllCategories']);
     Route::get('/get-section-product/{secName}',[UtilController::class,'getAllSectionProduct']);
     Route::get('/get-product-by-id/{id}',[UtilController::class,'getProductById']);
+    Route::get('/get-user',[UtilController::class,'getUser']);
 });

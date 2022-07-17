@@ -24,12 +24,17 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
-   
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    public function cart(){
-        return $this->hasOne(Cart::class,"user_id");
+    public function cart()
+    {
+        return $this->hasOne(Cart::class, "user_id");
+    }
+    public function districts()
+    {
+        return $this->hasMany(UserDistrict::class,'user_id');
     }
 }

@@ -1,15 +1,14 @@
 <template>
   <div class="m-1 p-2 mx-auto max-width">
     <b-row>
-      <b-col
-        class="m-4 p-3 mx-auto max-width"
-        :style="backgroundImage"
-        style="background: var(--wave-color-50per); border-radius: 8px"
-      >
+      <b-col class="m-4 p-3 mx-auto max-width">
         <b-img
-          :src="item.product.images[0].image_url"
+          :src="item.product.images[1].image_url"
           style="width: 80px; height: 120px"
-          id="image"
+          :style="shadow"
+          class="image"
+          :id="`image-${item.id}`"
+          @click.prevent="openItem"
         />
       </b-col>
       <b-col
@@ -23,17 +22,47 @@ import ColorThief from "color-thief";
 
 export default {
   props: ["item"],
-  methods: {},
-  mounted() {},
+  methods: {
+    applyImageLoading() {
+      const image = document.getElementById(`image-${this.item.id}`);
+      // var firstItem = document.getElementById(0);
+      image.addEventListener("load", () => {
+        setTimeout(() => this.getColor(image), 100);
+      });
+      // images.forEach((image) =>
+      //   image.addEventListener("load", () => {
+      //     setTimeout(() => this.getColor(image), 100);
+      //   })
+      // );
+    },
+    getColor(img) {
+      const colorThief = new ColorThief();
+      var x = colorThief.getColor(img);
+      this.imageColor = x;
+    },
+    openItem() {
+      this.$router.push({
+        name: "product-page",
+        params: {
+          id: this.item.product.id,
+        },
+      });
+    },
+  },
+  mounted() {
+    this.applyImageLoading();
+  },
   data() {
-    return {};
+    return {
+      imageColor: [],
+    };
   },
   computed: {
-    backgroundImage() {
-       const colorThief = new ColorThief();
-     const images = document.getElementById("image");
-      var x = colorThief.getColor(img);
-
+    shadow() {
+      return {
+        "box-shadow": `9px 9px 9px rgba(${this.imageColor},0.75)`,
+        cursor: "pointer",
+      };
     },
   },
 };

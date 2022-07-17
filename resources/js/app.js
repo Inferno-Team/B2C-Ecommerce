@@ -23,6 +23,8 @@ let router = new VueRouter({
     mode: 'history',
     routes
 })
+
+
 const app = new Vue({
     el: '#application',
     components: { App },

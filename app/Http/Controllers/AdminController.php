@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\District;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Traits\ReturnType;
@@ -34,6 +35,14 @@ class AdminController extends Controller
             $index++;
         }
         return $this->returnSuccessMessage("product added successfully");
+    }
+    public function addnewDistrict(Request $request)
+    {
+        $district = District::create([
+            'name'=>$request->address,
+            'ship_time'=>$request->ship_time,
+        ]);
+        return $this->returnSuccessMessage('District added successfully.');
     }
 
     protected function convertBase64ToFile(String $base64)

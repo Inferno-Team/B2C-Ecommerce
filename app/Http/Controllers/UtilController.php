@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Traits\ReturnType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UtilController extends Controller
 {
@@ -25,11 +26,15 @@ class UtilController extends Controller
     }
     public function getProductById($id)
     {
-        $product =  Product::where('id', $id)->with('images','category')->first();
+        $product =  Product::where('id', $id)->with('images', 'category')->first();
         info($product);
         return $this->returnData(
             'product',
             $product
         );
+    }
+    public function getUser()
+    {
+        return $this->returnData('user', Auth::user());
     }
 }

@@ -15,26 +15,26 @@
       </div>
       <div class="ms-auto h4 me-4" style="max-width: fit-content">
         <b-row class="left-items">
-          <b-col class="item-container" :class="[isAdmin ? 'displayNone' : '']"
+          <b-col class="item-container" v-if="!isAdmin"
             ><b-icon
               class="fav-btn"
               style="color: var(--button-color); cursor: pointer"
-              icon="heart"
+              icon="bag-check-fill"
               @click.prevent="moveToFav"
             ></b-icon>
-            <div class="fav-text">Favorite</div></b-col
+            <div :style="icon" class="fav-text">My Bills</div></b-col
           >
-          <b-col class="item-container" :class="[isAdmin ? 'displayNone' : '']"
+          <b-col class="item-container" v-if="!isAdmin"
             ><b-icon
               class="search-btn"
               style="color: var(--button-color); cursor: pointer"
               icon="search"
             >
             </b-icon>
-            <div class="search-text">Search</div></b-col
+            <div :style="icon" class="search-text">Search</div></b-col
           >
 
-          <b-col class="item-container" :class="[isAdmin ? 'displayNone' : '']">
+          <b-col class="item-container" v-if="!isAdmin">
             <b-icon
               class="cart-btn"
               style="color: var(--button-color); cursor: pointer"
@@ -42,7 +42,7 @@
               @click.prevent="moveToCart"
             >
             </b-icon>
-            <div class="cart-text">Cart</div></b-col
+            <div :style="icon" class="cart-text">Cart</div></b-col
           >
           <b-col class="item-container" v-if="isAdmin"
             ><b-icon
@@ -51,8 +51,18 @@
               icon="plus-lg"
               @click.prevent="moveToAddProduct"
             ></b-icon>
-            <div class="add-text">Add Product</div></b-col
+            <div :style="icon" class="add-text">Add Product</div></b-col
           >
+          <b-col class="item-container" v-if="isAdmin"
+            ><b-icon
+              class="add-btn"
+              style="color: var(--button-color); cursor: pointer"
+              icon="bookmark-plus"
+              v-b-modal.add-disrict-modal
+            ></b-icon>
+            <div :style="icon" class="add-text">Add District</div></b-col
+          >
+
           <b-col v-if="isLoggedIn">
             <b-button
               style="transition: 0.5s"
@@ -77,17 +87,33 @@
               >SignUp</b-button
             ></b-col
           >
-          <b-col v-if="isLoggedIn"
-            ><b-button
-              style="transition: 0.5s"
-              class="outline-button"
-              @click.prevent="moveToSignUpPage"
-              >{{ dashboardOrAccount }}</b-button
-            ></b-col
-          >
         </b-row>
       </div>
     </b-row>
+    <b-modal ref="add-disrict-modal" id="add-disrict-modal" hide-footer>
+      <b-card class="text-center">
+        <div class="h4 bold">Add New District</div>
+        <b-row>
+          <b-col sm="5" class="my-4">
+            <b-form-input
+              placeholder="District Address"
+              v-model="district.address"
+            />
+          </b-col>
+          <b-col sm="5" class="my-4">
+            <b-form-input
+              placeholder="District Ship Time"
+              v-model="district.ship_time"
+            />
+          </b-col>
+        </b-row>
+        <b-row style="justify-content: flex-end">
+          <b-col sm="3" class="my-4">
+            <b-button @click="addNewDistrict">Add</b-button>
+          </b-col>
+        </b-row>
+      </b-card>
+    </b-modal>
   </div>
 </template>
 
@@ -103,6 +129,15 @@ export default {
   },
 
   computed: {
+    icon() {
+      return {
+        "margin-left": !this.isLoggedIn
+          ? "0px"
+          : this.isAdmin
+          ? "30px"
+          : "0.8rem",
+      };
+    },
     navBarWidth() {
       return {
         left: this.isCollapsed ? "4rem" : "8rem",
@@ -141,6 +176,19 @@ export default {
       localStorage.removeItem("b2c-user-type");
       location.reload();
     },
+    addNewDistrict() {
+      axios
+        .post("/api/add-new-district", this.district)
+        .then((result) => {
+          if (result.data.code > 200) {
+            this.$toast.error(result.data.msg);
+          } else {
+            this.$toast.success(result.data.msg);
+          }
+          this.$refs["add-disrict-modal"].hide();
+        })
+        .catch((err) => this.$toast.error("something went wrong."));
+    },
   },
   data() {
     return {
@@ -148,6 +196,7 @@ export default {
       dashboardOrAccount: "",
       isAdmin: Boolean,
       routeName: "",
+      district: {},
     };
   },
   watch: {
@@ -160,7 +209,7 @@ export default {
           this.routeName = "Section";
           break;
         case "fav-page":
-          this.routeName = "Favorite";
+          this.routeName = "My Bills";
           break;
 
         default:
@@ -212,7 +261,6 @@ export default {
 .cart-text {
   opacity: 0;
   transition: 0.5s;
-
   font-size: 0.8rem;
   margin-top: 0.1rem;
   position: absolute;
@@ -226,7 +274,7 @@ export default {
 .add-btn:hover ~ .add-text,
 .cart-btn:hover ~ .cart-text {
   opacity: 1;
-  transform: translateY(0px);
+  transform: translateY(4px);
 }
 .displayNone {
   visibility: hidden;

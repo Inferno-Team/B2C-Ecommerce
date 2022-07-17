@@ -6,6 +6,9 @@ use App\Models\Bill;
 use App\Models\Billitem;
 use App\Models\Cart;
 use App\Models\CartItems;
+use App\Models\District;
+use App\Models\User;
+use App\Models\UserDistrict;
 use App\Traits\ReturnType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -67,7 +70,6 @@ class NormalUserController extends Controller
         $cart = $user->cart;
         $bill = Bill::create([
             'user_id' => $user->id,
-            'ship_id' => $request->ship_id,
             'user_disc_id' => $request->user_disc_id,
         ]);
         $cartItems = CartItems::where('cart_id', $cart->id)->get();
@@ -76,16 +78,43 @@ class NormalUserController extends Controller
             $billItem = Billitem::create([
                 "bill_id" => $bill->id,
                 "prod_id" => $cartItems[$i]->prod_id,
-                "item_count" => $cartItems[$i]->item_countF,
+                "item_count" => $cartItems[$i]->item_count,
             ]);
+            $cartItems[$i]->delete();
             array_push($insertedItems, $billItem);
         }
-        return $this->returnSuccessMessage("${count($insertedItems)} bill item created.");
+
+        return $this->returnSuccessMessage(count($insertedItems) . " bill item created.");
     }
     public function rmeoveItem(Request $request)
     {
         $cartItem = CartItems::find($request->id);
         $cartItem->delete();
         return $this->returnSuccessMessage("removed");
+    }
+    public function getMyDistricts()
+    {
+        $user = Auth::user();
+        $diss = UserDistrict::where('user_id', $user->id)->with('district')->get();
+
+        return $this->returnData('districts', $diss);
+    }
+    public function getAllDistricts()
+    {
+
+        return $this->returnData('districts', District::all());
+    }
+    public function addNewUserDistrict(Request $request)
+    {
+
+        $user = Auth::user();
+        $du = UserDistrict::create([
+            'user_id' => $user->id,
+            'district_id' => $request->id,
+            'street_info' => $request->address,
+        ]);
+        if (isset($du))
+            return $this->returnSuccessMessage('user district added.');
+        else return $this->returnError(300, "can't create this district now.");
     }
 }

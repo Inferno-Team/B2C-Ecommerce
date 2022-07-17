@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->foreignId('ship_id')->nullable()->references('id')->on('ship_methods')->nullOnDelete();
             $table->foreignId('user_disc_id')->nullable()->references('id')->on('user_districts')->nullOnDelete();
             $table->timestamps();
         });

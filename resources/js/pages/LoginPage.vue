@@ -2,7 +2,7 @@
   <div>
     <div style="width: 400px" class="my-4 ms-auto me-auto p-3 form-container">
       <b-row class="my-4">
-        <div class="ms-auto me-auto p-2 h3" style="width: 100px">Log In</div>
+        <div class="mx-auto p-2 h3" style="width: 100px">Log In</div>
       </b-row>
       <b-row class="my-4">
         <b-col sm="3">
