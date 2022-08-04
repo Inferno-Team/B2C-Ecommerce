@@ -2,9 +2,9 @@
   <div class="side-bar" :class="[sideBarIsCollapsed ? 'collapsed' : '']">
     <b-col>
       <div
-        :class="[sideBarIsCollapsed ? 'p-4' : 'p-4']"
+        
         :style="isCollapsedStyle"
-        class="menu-item-container"
+        class="menu-item-container p-4"
       >
         <div
           @click="collapseSideBar"
@@ -16,7 +16,7 @@
       </div>
       <b-col class="menu-items mt-5">
         <b-col :style="onCollapse" class="p-1 sidebar-menu-item">
-          <b-img src="/storage/images/man.svg" alt="man image" />
+          <b-img src="/storage/images/man.svg"/>
           <div
             id="Men"
             @click.prevent="moveToSectionPage"
@@ -122,8 +122,6 @@ export default {
 .menu-item-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  text-align: center;
   background: var(--text-color);
   transition: 0.5s;
 }

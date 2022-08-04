@@ -62,10 +62,10 @@ class AdminController extends Controller
     }
     protected function saveImageToFile($image, $folderName, $index)
     {
-        $image1 = $this->convertBase64ToFile($image);
+        $image = $this->convertBase64ToFile($image);
         $timeNow = time() + $index;
-        $imageName = '/images/products/' . $folderName . '/' . $timeNow . '.' . $image1[1];
-        Storage::disk('public')->put($imageName, $image1[0]);
+        $imageName = '/images/products/' . $folderName . '/' . $timeNow . '.' . $image[1];
+        Storage::disk('public')->put($imageName, $image[0]);
         return $imageName;
     }
 }

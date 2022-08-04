@@ -93,7 +93,7 @@
     <b-modal ref="add-disrict-modal" id="add-disrict-modal" hide-footer>
       <b-card class="text-center">
         <div class="h4 bold">Add New District</div>
-        <b-row>
+        <b-row style="justify-content: space-between">
           <b-col sm="5" class="my-4">
             <b-form-input
               placeholder="District Address"
@@ -124,7 +124,6 @@ export default {
     var token = localStorage.getItem("b2c-user-token");
     var role = localStorage.getItem("b2c-user-type");
     this.isLoggedIn = token != undefined && token != null;
-    this.dashboardOrAccount = role === "admin" ? "Dashboard" : "Account";
     this.isAdmin = role === "admin";
   },
 
@@ -233,9 +232,7 @@ export default {
 }
 .centered-item {
   display: flex;
-  justify-content: center;
   align-items: center;
-  text-align: center;
   max-width: fit-content;
   transition: 0.5s;
   cursor: pointer;
@@ -282,7 +279,7 @@ export default {
 .logo-name-text {
   transform: translateX(50px);
   opacity: 0;
-  transition: 0.5s;
+  transition:  0.5s;
 }
 .centered-item:hover .logo-name-text {
   transform: translateX(0px);

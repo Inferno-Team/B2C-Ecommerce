@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container class="prod-container">
     <product-item v-for="(prod, index) in prods" :key="index" :prod="prod" />
   </b-container>
 </template>
@@ -11,37 +11,22 @@ export default {
 
   watch: {
     secName: function (nV, oV) {
-      var token = localStorage.getItem("b2c-user-token");
-      var isLoggedIn = token != undefined && token != null;
-
-      if (!isLoggedIn) {
-        this.$toast.warning("You need to log in first", {
-          pauseOnHover: true,
-        });
-        this.$router.push({ name: "home-page" });
-      } else {
-        this.loadSectionProducts();
-      }
+      // var token = localStorage.getItem("b2c-user-token");
+      // this.isLoggedIn = token != undefined && token != null;
+      this.loadSectionProducts();
     },
   },
 
   data() {
     return {
       prods: [],
+      isLoggedIn: false,
     };
   },
   mounted() {
-    var token = localStorage.getItem("b2c-user-token");
-    var isLoggedIn = token != undefined && token != null;
-
-    if (!isLoggedIn) {
-      this.$toast.warning("You need to log in first", {
-        pauseOnHover: true,
-      });
-      this.$router.push({ name: "home-page" });
-    } else {
-      this.loadSectionProducts();
-    }
+    // var token = localStorage.getItem("b2c-user-token");
+    // this.isLoggedIn= token != undefined && token != null;
+    this.loadSectionProducts();
   },
   methods: {
     loadSectionProducts() {
@@ -61,3 +46,11 @@ export default {
   },
 };
 </script>
+<style scoped>
+.prod-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  max-width: max-content;
+}
+</style>

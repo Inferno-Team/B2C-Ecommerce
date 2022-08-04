@@ -9,6 +9,7 @@ use App\Http\Controllers\UtilController;
 
 Route::post('login', [UserController::class, 'login']);
 Route::post('signup', [UserController::class, 'signup']);
+Route::get('/get-section-product/{secName}',[UtilController::class,'getAllSectionProduct']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
@@ -28,7 +29,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         $route->post('/add-new-district',[AdminController::class,'addnewDistrict']);
     });
     Route::get('/get-all-categories',[UtilController::class,'getAllCategories']);
-    Route::get('/get-section-product/{secName}',[UtilController::class,'getAllSectionProduct']);
     Route::get('/get-product-by-id/{id}',[UtilController::class,'getProductById']);
     Route::get('/get-user',[UtilController::class,'getUser']);
 });

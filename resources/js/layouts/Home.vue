@@ -26,7 +26,8 @@ export default {
         top: this.isCollapsed ? "4rem" : "8rem",
         left: this.isCollapsed ? "4rem" : "8rem",
         transition: "0.5s",
-        width:this.isCollapsed?"calc(100% - 4rem)":"calc(100% - 8rem)"
+        width: this.isCollapsed ? "calc(100% - 4rem)" : "calc(100% - 8rem)",
+        height: this.isCollapsed ? "calc(100% - 4rem)" : "calc(100% - 8rem)",
       };
     },
   },
@@ -35,5 +36,6 @@ export default {
 <style scoped>
 .inside-home-page {
   position: absolute;
+  overflow-y: auto;
 }
 </style>

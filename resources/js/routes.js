@@ -7,6 +7,7 @@ import SectionPage from './pages/SectionPage.vue'
 import SignUpPage from './pages/SignUpPage.vue'
 import AddProductPage from './pages/AddProductPage.vue'
 import ProductPage from './pages/ProductPage.vue'
+import EditProductPage from './pages/EditProductPage.vue'
 import CheckoutPage from './pages/CheckoutPage.vue'
 export const routes = [{
     path: '/',
@@ -56,6 +57,11 @@ export const routes = [{
             path: '/checkout',
             name: 'checkout',
             component: CheckoutPage,
-        }
+        }, {
+            path: '/product/edit/:id',
+            name: 'edit-product-page',
+            component: EditProductPage,
+            props: true
+        },
     ]
 }, ];

@@ -23,16 +23,8 @@
             </div>
             <div class="h6 my-5 py-2 w200">{{ product.dscription }}</div>
             <b-row style="justify-content: space-evenly">
-              <b-button class="fav-button" style="max-width: fit-content">
-                <b-icon
-                  class="mx-2"
-                  style="color: var(--wave-color); cursor: pointer"
-                  icon="heart"
-                  @click.prevent="moveToAddProduct"
-                ></b-icon>
-                Add To Favourite</b-button
-              >
               <b-button
+                v-if="isLoggedIn && !isAdmin"
                 @click.prevent="addToCart"
                 class="inline-button"
                 style="max-width: fit-content"
@@ -41,10 +33,10 @@
                   class="add-btn mx-2"
                   style="color: white; cursor: pointer"
                   icon="cart"
-                  @click.prevent="moveToAddProduct"
                 ></b-icon>
                 Add To Cart</b-button
               >
+             
             </b-row>
           </b-col>
         </b-row>
@@ -73,20 +65,16 @@ export default {
       product: {},
       imageColor: [],
       firstImageUrl: "",
+      isAdmin: false,
+      isLoggedIn: false,
     };
   },
   mounted() {
     var token = localStorage.getItem("b2c-user-token");
-    var isLoggedIn = token != undefined && token != null;
-
-    if (!isLoggedIn) {
-      this.$toast.warning("You need to log in first", {
-        pauseOnHover: true,
-      });
-      this.$router.push({ name: "home-page" });
-    } else {
-      this.loadProduct();
-    }
+    this.isLoggedIn = token != undefined && token != null;
+    var role = localStorage.getItem("b2c-user-type");
+    this.isAdmin = role === "admin";
+    this.loadProduct();
   },
   methods: {
     getColor(img) {
@@ -147,6 +135,14 @@ export default {
           this.$toast.error("something went wrong please try again later.");
         });
     },
+    editProduct() {
+      this.$router.push({
+        name: "edit-product-page",
+        params: {
+          id: this.$props.id,
+        },
+      });
+    },
   },
   computed: {
     productImageStyle() {
@@ -170,5 +166,11 @@ export default {
   width: 4rem;
   height: 5rem;
   border-radius: 4px;
+}
+.add-btn {
+  transition: 0.5s;
+}
+.inline-button:hover .add-btn {
+  color: var(--icon-color) !important;
 }
 </style>

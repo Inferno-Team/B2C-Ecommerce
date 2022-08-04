@@ -36,7 +36,7 @@
       </b-row>
       <b-row v-if="isLoading">
         <vue-ellipse-progress
-          class="ms-auto me-auto"
+          class="mx-auto"
           :loading="true"
           :size="60"
           :color="'#fbd66e'"

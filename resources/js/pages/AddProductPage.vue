@@ -161,6 +161,7 @@ export default {
         this.$refs.image3.getQueuedFiles()[0] == null
       ) {
         this.$toast.warning('you need to choose 3 images please try again.');
+        return;
       }
       var image1Base64Data = this.$refs.image1.getQueuedFiles()[0].dataURL;
       var image2Base64Data = this.$refs.image2.getQueuedFiles()[0].dataURL;
@@ -175,9 +176,7 @@ export default {
             this.clear();
           }
 
-          this.$toast.success(response.data.msg, {
-            position: POSITION.BOTTOM_RIGHT,
-          });
+          this.$toast.success(response.data.msg);
         })
         .catch((err) => {
           this.$toast.error(err);
