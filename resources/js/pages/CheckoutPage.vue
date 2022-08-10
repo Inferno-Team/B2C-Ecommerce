@@ -15,7 +15,7 @@
             class="max-width mx-auto"
           >
             <b-col v-for="(col, index2) in row" :key="index2">
-              <bill-item :item="col"
+              <checkout-item :item="col"
             /></b-col>
           </b-row>
         </b-col>
@@ -132,7 +132,7 @@
                   {{ item.product.name }}
                 </div>
                 <div class="h6 w500" style="width: 7rem">
-                  {{ item.item_count }} Pice
+                  {{ item.item_count }} Piece
                 </div>
                 <div class="h6 w500" style="width: 9rem">
                   {{ item.item_count * item.product.price }} S.P
@@ -164,9 +164,9 @@
   </b-container>
 </template>
 <script>
-import BillItem from "../components/Bill-Item.vue";
+import checkoutItem from "../components/checkout-Item.vue";
 export default {
-  components: { BillItem },
+  components: { checkoutItem },
   mounted() {
     this.loadCartItems();
     this.loadUserDistricts();
@@ -247,14 +247,20 @@ export default {
         .then((result) => {
           if (result.data.code > 200)
             this.$toast.warning("distirct didn't saved");
-          else this.$toast.success(result.data.msg);
+          else {
+            this.$toast.success(result.data.msg);
+            console.log(result.data.district);
+            this.districts.push({
+              ...result.data.district,
+              street_info: this.newDistrict.address,
+            });
+            this.newDistictSelected = false;
+            this.newDistrict = {};
+          }
         })
         .catch((err) => {
           this.$toast.error("something went wrong .");
         });
-      this.districts.push(this.newDistrict.name);
-      this.newDistictSelected = false;
-      this.newDistrict = {};
     },
     getUser() {
       axios

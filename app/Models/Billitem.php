@@ -14,6 +14,6 @@ class Billitem extends Model
         'item_count'
     ];
     public function product(){
-        return $this->hasOne(Product::class,'prod_id');
+        return $this->belongsTo(Product::class,'prod_id');
     }
 }

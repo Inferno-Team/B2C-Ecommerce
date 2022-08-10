@@ -113,8 +113,57 @@ class NormalUserController extends Controller
             'district_id' => $request->id,
             'street_info' => $request->address,
         ]);
+        $du->district = District::find($du->district_id);
         if (isset($du))
-            return $this->returnSuccessMessage('user district added.');
+            return $this->returnData("district", $du, 'user district added.');
         else return $this->returnError(300, "can't create this district now.");
+    }
+    public function getMyBills()
+    {
+        $user = Auth::user();
+        $bills = Bill::where('user_id', $user->id)->with('billItems.product.images', 'userDistrict.district')
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(fn ($bill) =>  [
+                'id' => $bill->id,
+                'date' => $bill->created_at->diffForHumans(),
+                'total_price' => 0,
+                'district' => $bill->userDistrict->district->name,
+                'street_info' => $bill->userDistrict->street_info,
+                'total_count' => $bill->billItems->sum('item_count'),
+                'items' => $bill->billItems->map(fn ($billItem) => [
+                    'id' => $billItem->id,
+                    'name' => $billItem->product->name,
+                    'price' => $billItem->product->price,
+                    'images' => $billItem->product->images->map(fn ($image) => $image->image_url),
+                    'count' => $billItem->item_count,
+                ]),
+            ]);
+        return $this->returnData('bills', $bills);
+    }
+    public function getMyBillDetials($id)
+    {
+        $user = Auth::user();
+        $bill = Bill::where('id', $id)->with('billItems.product.images')
+            ->get()
+            ->map(fn ($bill) =>  [
+                'id' => $bill->id,
+                'user_id' => $bill->user_id,
+                'date' => $bill->created_at->diffForHumans(),
+                'total_count' => $bill->billItems->sum('item_count'),
+                'total_price' => 0,
+                'items' => $bill->billItems->map(fn ($billItem) => [
+                    'id' => $billItem->id,
+                    'name' => $billItem->product->name,
+                    'price' => $billItem->product->price,
+                    'images' => $billItem->product->images->map(fn ($image) => $image->image_url),
+                    'count' => $billItem->item_count,
+                ]),
+            ]);
+        $bill = $bill[0];
+
+        if ($bill['user_id'] == $user->id)
+            return $this->returnData('bill', $bill);
+        else return $this->returnError(401, "you can't access this bill.");
     }
 }

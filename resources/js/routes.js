@@ -1,13 +1,13 @@
 import Home from './layouts/Home.vue'
 import HomePage from './pages/HomePage.vue'
-import FavPage from './pages/FavPage.vue'
+import BillPage from './pages/BillPage.vue'
 import CartPage from './pages/CartPage.vue'
 import LoginPage from './pages/LoginPage.vue'
 import SectionPage from './pages/SectionPage.vue'
 import SignUpPage from './pages/SignUpPage.vue'
 import AddProductPage from './pages/AddProductPage.vue'
 import ProductPage from './pages/ProductPage.vue'
-import EditProductPage from './pages/EditProductPage.vue'
+import ShowBillDetials from './pages/ShowBillDetials.vue'
 import CheckoutPage from './pages/CheckoutPage.vue'
 export const routes = [{
     path: '/',
@@ -29,9 +29,9 @@ export const routes = [{
             component: SignUpPage
         },
         {
-            path: '/fav',
-            name: 'fav-page',
-            component: FavPage
+            path: '/bills',
+            name: 'bill-page',
+            component: BillPage
         },
         {
             path: '/cart',
@@ -57,11 +57,13 @@ export const routes = [{
             path: '/checkout',
             name: 'checkout',
             component: CheckoutPage,
-        }, {
-            path: '/product/edit/:id',
-            name: 'edit-product-page',
-            component: EditProductPage,
+        },
+        {
+            path: '/bill/show/:id',
+            name: 'bill-details-page',
+            component: ShowBillDetials,
             props: true
         },
+
     ]
 }, ];

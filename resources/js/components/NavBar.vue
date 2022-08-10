@@ -20,7 +20,7 @@
               class="fav-btn"
               style="color: var(--button-color); cursor: pointer"
               icon="bag-check-fill"
-              @click.prevent="moveToFav"
+              @click.prevent="moveToBill"
             ></b-icon>
             <div :style="icon" class="fav-text">My Bills</div></b-col
           >
@@ -163,8 +163,8 @@ export default {
     moveToCart() {
       this.$router.push({ name: "cart-page" });
     },
-    moveToFav() {
-      this.$router.push({ name: "fav-page" });
+    moveToBill() {
+      this.$router.push({ name: "bill-page" });
     },
     moveToAddProduct() {
       this.$router.push({ name: "add-page" });

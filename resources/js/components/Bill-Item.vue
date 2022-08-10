@@ -1,71 +1,57 @@
 <template>
-  <div class="m-1 p-2 mx-auto max-width">
-    <b-row>
-      <b-col class="m-4 p-3 mx-auto max-width">
-        <b-img
-          :src="item.product.images[1].image_url"
-          style="width: 80px; height: 120px"
-          :style="shadow"
-          class="image"
-          :id="`image-${item.id}`"
-          @click.prevent="openItem"
-        />
-      </b-col>
-      <b-col
-        ><div class="text-center h6 w-400">{{ item.product.name }}</div></b-col
-      >
-    </b-row>
-  </div>
+  <tr v-if="item.total_price>0">
+    <td>{{ item.date }}</td>
+    <td>{{ item.total_count }}</td>
+    <td>{{ item.total_price }}</td>
+    <td>{{ item.district }}</td>
+    <td>{{ item.street_info }}</td>
+    <td
+      @click.prevent="moveToBillDetails"
+      style="
+        text-decoration: underline;
+        font-size: 13px;
+        color: blue;
+        cursor: pointer;
+      "
+    >
+      More Detials
+    </td>
+  </tr>
 </template>
-<script>
-import ColorThief from "color-thief";
 
+<script>
 export default {
   props: ["item"],
+  mounted(){
+    let price = 0;
+    this.item.items.forEach(i => {
+      price += i.count * i.price;
+    });
+    this.item.total_price = price;
+  },
   methods: {
-    applyImageLoading() {
-      const image = document.getElementById(`image-${this.item.id}`);
-      // var firstItem = document.getElementById(0);
-      image.addEventListener("load", () => {
-        setTimeout(() => this.getColor(image), 100);
-      });
-      // images.forEach((image) =>
-      //   image.addEventListener("load", () => {
-      //     setTimeout(() => this.getColor(image), 100);
-      //   })
-      // );
-    },
-    getColor(img) {
-      const colorThief = new ColorThief();
-      var x = colorThief.getColor(img);
-      this.imageColor = x;
-    },
-    openItem() {
+    moveToBillDetails() {
       this.$router.push({
-        name: "product-page",
-        params: {
-          id: this.item.product.id,
-        },
+        name: "bill-details-page",
+        params: { id: this.item.id },
       });
-    },
-  },
-  mounted() {
-    this.applyImageLoading();
-  },
-  data() {
-    return {
-      imageColor: [],
-    };
-  },
-  computed: {
-    shadow() {
-      return {
-        "box-shadow": `9px 9px 9px rgba(${this.imageColor},0.75)`,
-        cursor: "pointer",
-      };
     },
   },
 };
 </script>
+
 <style scoped>
+th,
+td,
+tr {
+  border: 1px solid;
+  padding: 0.5rem;
+}
+th,
+td,
+tr {
+  text-align: center;
+  font-weight: 600;
+  font-size: 21px;
+}
 </style>

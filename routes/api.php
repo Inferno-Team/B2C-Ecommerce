@@ -23,6 +23,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         $route->post('/add-new-user-distict',[NormalUserController::class,'addNewUserDistrict']);
         $route->get('/get-my-district',[NormalUserController::class,'getMyDistricts']);
         $route->get('/get-all-district',[NormalUserController::class,'getAllDistricts']);
+        $route->get("/get_my_bills",[NormalUserController::class,'getMyBills']);
+        $route->get("/get_my_bill_details/{id}",[NormalUserController::class,'getMyBillDetials']);
     });
     Route::group(['middleware' => ['is_admin']], function ($route) {
         $route->post('/add-product',[AdminController::class,'addProduct']);
