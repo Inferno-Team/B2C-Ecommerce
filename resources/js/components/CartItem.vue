@@ -7,7 +7,7 @@
         background: var(--secondary-button-color-50per);
         padding: 1px;
       "
-      class="my-4 ms-auto me-auto"
+      class="my-4 mx-auto"
     ></div>
     <b-row
       style="align-items: center; "

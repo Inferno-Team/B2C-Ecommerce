@@ -29,11 +29,7 @@ export default {
       image.addEventListener("load", () => {
         setTimeout(() => this.getColor(image), 100);
       });
-      // images.forEach((image) =>
-      //   image.addEventListener("load", () => {
-      //     setTimeout(() => this.getColor(image), 100);
-      //   })
-      // );
+     
     },
     getColor(img) {
       const colorThief = new ColorThief();

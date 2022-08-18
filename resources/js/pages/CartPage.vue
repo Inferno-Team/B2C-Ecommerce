@@ -8,7 +8,7 @@
   >
     <b-container
       v-if="cart != null && cart.items != null && cart.items.length > 0"
-      class="mt-3 ms-auto me-auto"
+      class="mt-3 mx-auto"
       style="max-width: fit-content; background: white; border-radius: 8px"
     >
       <b-row>
@@ -52,17 +52,12 @@
 <script>
 import CartItem from "../components/CartItem.vue";
 export default {
-  beforeDestroy() {
-    // check if user want to save the update.
-  },
-
+ 
   mounted() {
     var token = localStorage.getItem("b2c-user-token");
     var isLoggedIn = token != undefined && token != null;
     if (!isLoggedIn) {
-      this.$toast.warning("You need to log in first", {
-        pauseOnHover: true,
-      });
+      this.$toast.warning("You need to log in first");
       this.$router.push({ name: "home-page" });
     } else {
       this.loadUserCart();

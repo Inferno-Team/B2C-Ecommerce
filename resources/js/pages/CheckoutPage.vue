@@ -80,13 +80,13 @@
                   v-for="(district, index) in districts"
                   :key="index"
                   @click="selectedDistrict = district"
-                  >{{
-                    district.district.name +
-                    " - " +
-                    district.street_info +
-                    " | " +
-                    district.district.ship_time
-                  }}</b-dropdown-item
+                    >{{
+                      district.district.name +
+                      " - " +
+                      district.street_info +
+                      " | " +
+                      district.district.ship_time
+                    }}</b-dropdown-item
                 >
                 <b-dropdown-item @click="newDistictSelected = true"
                   >Add New Place</b-dropdown-item
@@ -208,6 +208,7 @@ export default {
         k,
         list = this.items;
 
+      // martix [ [0 , 1],[2] ]
       for (i = 0, k = -1; i < list.length; i++) {
         if (i % 2 === 0) {
           k++;

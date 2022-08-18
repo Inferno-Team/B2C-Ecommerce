@@ -18,7 +18,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         $route->post('/add-product-to-cart',[NormalUserController::class,'addProductToCart']);
         $route->post('/increse-cart-item-count',[NormalUserController::class,'increseCartItem']);
         $route->post('/reduce-cart-item-count',[NormalUserController::class,'reduceItemCount']);
-        $route->post('/remove-item-from-cart',[NormalUserController::class,'rmeoveItem']);
+        $route->post('/remove-item-from-cart',[NormalUserController::class,'removeItem']);
         $route->post('/convert-cart-to-bill',[NormalUserController::class,'convertCartToBill']);
         $route->post('/add-new-user-distict',[NormalUserController::class,'addNewUserDistrict']);
         $route->get('/get-my-district',[NormalUserController::class,'getMyDistricts']);

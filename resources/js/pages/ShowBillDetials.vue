@@ -44,7 +44,7 @@ export default {
       axios
         .get(`/api/get_my_bill_details/${this.id}`)
         .then((response) => {
-          console.log(response.data);
+         
           if (response.data.code == 200) {
             this.bill = response.data.bill;
             let price = 0;

@@ -25,7 +25,7 @@ let router = new VueRouter({
 })
 
 
-const app = new Vue({
+new Vue({
     el: '#application',
     components: { App },
     router

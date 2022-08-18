@@ -86,7 +86,7 @@ class NormalUserController extends Controller
 
         return $this->returnSuccessMessage(count($insertedItems) . " bill item created.");
     }
-    public function rmeoveItem(Request $request)
+    public function removeItem(Request $request)
     {
         $cartItem = CartItems::find($request->id);
         $cartItem->delete();
