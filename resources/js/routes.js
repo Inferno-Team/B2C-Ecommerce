@@ -9,6 +9,7 @@ import AddProductPage from './pages/AddProductPage.vue'
 import ProductPage from './pages/ProductPage.vue'
 import ShowBillDetials from './pages/ShowBillDetials.vue'
 import CheckoutPage from './pages/CheckoutPage.vue'
+import CheckOrdersPage from './pages/CheckOrdersPage.vue'
 export const routes = [{
     path: '/',
     name: 'home',
@@ -41,6 +42,11 @@ export const routes = [{
             path: '/add',
             name: 'add-page',
             component: AddProductPage
+        },
+        {
+            path: '/check-orders',
+            name:'check-orders',
+            component:CheckOrdersPage
         },
         {
             path: '/section/:secName',

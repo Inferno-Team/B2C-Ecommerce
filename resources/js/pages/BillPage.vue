@@ -6,6 +6,7 @@
         <th>Quantity</th>
         <th>Price</th>
         <th>Destrict</th>
+        <th>Status</th>
         <th>Street Info</th>
         <th>Detials</th>
       </tr>

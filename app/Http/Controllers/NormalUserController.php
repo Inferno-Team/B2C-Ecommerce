@@ -37,14 +37,14 @@ class NormalUserController extends Controller
             ->where('prod_id', $request->id)->first();
         if (isset($productInCart)) {
             // denied this request cause this product is alredy in this cart
-            return $this->returnError(401, "can't add this product to this cart because it's already in it.");
+            return $this->returnError(401, "لا يمكن اضافة هذا العنصر الى الفاتورة لانه مضاف بالفعل");
         } else {
             // else : create refrence to this product in this cart & add just one item
             $productInCart = CartItems::create([
                 'cart_id' => $userCart->id,
                 'prod_id' => $request->id,
             ]);
-            return $this->returnSuccessMessage("Product added successfuly to cart.");
+            return $this->returnSuccessMessage("تمت اضافة العنصر بنجاح الى الفاتورة");
         }
     }
 
@@ -84,7 +84,7 @@ class NormalUserController extends Controller
             array_push($insertedItems, $billItem);
         }
 
-        return $this->returnSuccessMessage(count($insertedItems) . " bill item created.");
+        return $this->returnSuccessMessage(count($insertedItems) . "تم انشاء الفاتورة بنجاح");
     }
     public function removeItem(Request $request)
     {
@@ -115,8 +115,8 @@ class NormalUserController extends Controller
         ]);
         $du->district = District::find($du->district_id);
         if (isset($du))
-            return $this->returnData("district", $du, 'user district added.');
-        else return $this->returnError(300, "can't create this district now.");
+            return $this->returnData("district", $du, 'تمت اضافة عنوان المستخدم');
+        else return $this->returnError(300, "لا يمكن انشاء العنوان حاليا");
     }
     public function getMyBills()
     {
@@ -130,6 +130,7 @@ class NormalUserController extends Controller
                 'total_price' => 0,
                 'district' => $bill->userDistrict->district->name,
                 'street_info' => $bill->userDistrict->street_info,
+                'status' => $bill->status,
                 'total_count' => $bill->billItems->sum('item_count'),
                 'items' => $bill->billItems->map(fn ($billItem) => [
                     'id' => $billItem->id,
@@ -162,8 +163,8 @@ class NormalUserController extends Controller
             ]);
         $bill = $bill[0];
 
-        if ($bill['user_id'] == $user->id)
+        if ($bill['user_id'] == $user->id || $user->type != 'admin')
             return $this->returnData('bill', $bill);
-        else return $this->returnError(401, "you can't access this bill.");
+        else return $this->returnError(401, "لا يمكنك الوصول لهذه الفاتورة");
     }
 }

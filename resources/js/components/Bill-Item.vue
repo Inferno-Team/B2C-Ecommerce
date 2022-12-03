@@ -1,9 +1,12 @@
 <template>
-  <tr v-if="item.total_price>0">
+  <tr v-if="item.total_price>0"
+    :class="[item.status == 'waiting' ? 'waiting' : 
+  item.status == 'denided' ? 'denided':'approved']" >
     <td>{{ item.date }}</td>
     <td>{{ item.total_count }}</td>
     <td>{{ item.total_price }}</td>
     <td>{{ item.district }}</td>
+    <td>{{ item.status }}</td>
     <td>{{ item.street_info }}</td>
     <td
       @click.prevent="moveToBillDetails"
@@ -54,4 +57,13 @@ tr {
   font-weight: 600;
   font-size: 21px;
 }
+.approved{
+    background-color: #43cd43;
+  }
+  .waiting{
+    background-color: #e5980d;
+  }
+  .denided{
+    background-color: #df3737;
+  }
 </style>

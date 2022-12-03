@@ -61,6 +61,15 @@
               v-b-modal.add-disrict-modal
             ></b-icon>
             <div :style="icon" class="add-text">Add District</div></b-col
+          > 
+          <b-col class="item-container" v-if="isAdmin"
+            ><b-icon
+              class="add-btn"
+              style="color: var(--button-color); cursor: pointer"
+              icon="check"
+              @click.prevent="moveToCheckOrdersPage"
+            ></b-icon>
+            <div :style="icon" class="add-text">Check Orders</div></b-col
           >
 
           <b-col v-if="isLoggedIn">
@@ -133,7 +142,7 @@ export default {
         "margin-left": !this.isLoggedIn
           ? "0px"
           : this.isAdmin
-          ? "30px"
+          ? "12px"
           : "0.8rem",
       };
     },
@@ -153,6 +162,9 @@ export default {
   methods: {
     moveToLoginPage() {
       this.$router.push({ name: "login-page" });
+    },
+    moveToCheckOrdersPage(){
+      this.$router.push({ name: "check-orders" });
     },
     moveToSignUpPage() {
       this.$router.push({ name: "signup-page" });

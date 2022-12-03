@@ -54,9 +54,9 @@ export default {};
 }
 .title {
   font-size: 4rem;
-  color: grey;
+  color: rgb(167, 7, 7);
   margin-top: 8rem;
-  margin-left: 12rem;
+  margin-left: 11rem;
 }
 .sub-title {
   margin-left: 12rem;

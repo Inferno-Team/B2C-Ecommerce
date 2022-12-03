@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bill;
 use App\Models\Category;
 use App\Models\District;
 use App\Models\Product;
@@ -34,15 +35,15 @@ class AdminController extends Controller
             info($prodctimage);
             $index++;
         }
-        return $this->returnSuccessMessage("product added successfully");
+        return $this->returnSuccessMessage("تمت اضافة العنصر بنجاح");
     }
     public function addnewDistrict(Request $request)
     {
         $district = District::create([
-            'name'=>$request->address,
-            'ship_time'=>$request->ship_time,
+            'name' => $request->address,
+            'ship_time' => $request->ship_time,
         ]);
-        return $this->returnSuccessMessage('District added successfully.');
+        return $this->returnSuccessMessage('تمت اضافة المنطقة بنجاح');
     }
 
     protected function convertBase64ToFile(String $base64)
@@ -67,5 +68,35 @@ class AdminController extends Controller
         $imageName = '/images/products/' . $folderName . '/' . $timeNow . '.' . $image[1];
         Storage::disk('public')->put($imageName, $image[0]);
         return $imageName;
+    }
+    public function getAllOrders(Request $request)
+    {
+        $bills = Bill::with('user', 'billItems.product')->orderBy('created_at', 'desc')->get()->map(fn ($bill) =>  [
+            'id' => $bill->id,
+            'date' => $bill->created_at->diffForHumans(),
+            'total_price' => 0,
+            'district' => $bill->userDistrict->district->name,
+            'street_info' => $bill->userDistrict->street_info,
+            'total_count' => $bill->billItems->sum('item_count'),
+            'status' => $bill->status,
+            'items' => $bill->billItems->map(fn ($billItem) => [
+                'id' => $billItem->id,
+                'name' => $billItem->product->name,
+                'price' => $billItem->product->price,
+                'images' => $billItem->product->images->map(fn ($image) => $image->image_url),
+                'count' => $billItem->item_count,
+            ]),
+        ]);;
+        return $this->returnData('bills', $bills);
+    }
+    public function changeBillStatus(Request $request)
+    {
+        $bill = Bill::find($request->id);
+        if (!isset($bill)) {
+            return $this->returnError(401, 'فاتورة غير موجودة');
+        }
+        $bill->status = $request->status;
+        $bill->save();
+        return $this->returnSuccessMessage('تمت تعديل حالة الفاتورة');
     }
 }

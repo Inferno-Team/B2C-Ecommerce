@@ -1,12 +1,7 @@
 <template>
   <b-row
     @click.prevent="moveToProductPage"
-    class="p-4 m-3 h3"
-    style="
-      cursor: pointer;
-      box-shadow: 9px 9px 9px rgba(216, 216, 216, 0.75);
-      border-radius: 1rem;
-    "
+    class="p-4 m-3 h3 item"
     :id="prod.id"
   >
     <b-img
@@ -46,5 +41,10 @@ export default {
   width: 15rem;
   height: 20rem;
   border-radius: 8px;
+}
+.item{
+     cursor: pointer;
+      box-shadow: 9px 9px 9px rgba(255, 0,0, 0.75);
+      border-radius: 1rem;
 }
 </style>
